@@ -41,14 +41,15 @@ jobs:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
       run: vendor/bin/pest
-    - name: Deploy code through Git
-      uses: appleboy/ssh-action@master
+    - name: Deploy code through SSH
+      uses: cross-the-world/ssh-scp-ssh-pipelines@latest
       with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USERNAME }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        script: |
-          cd /var/www/html/my_crud_project
-          bash deploy.sh
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        ssh-host: ${{ secrets.SSH_HOST }}
+        ssh-username: ${{ secrets.SSH_USERNAME }}
+        source: .
+        target: /var/www/html/my_crud_project
+        script: bash deploy.sh
     
     
+        

@@ -43,13 +43,15 @@ jobs:
       run: vendor/bin/pest
     - name: Deploy code through SSH
       uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+      env:
+        WELCOME: "ssh scp ssh pipelines"
+        LASTSSH: "Doing something after copying"
       with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-        ssh-host: ${{ secrets.SSH_HOST }}
-        ssh-username: ${{ secrets.SSH_USERNAME }}
-        source: .
-        target: /var/www/html/my_crud_project
-        script: bash deploy.sh
-    
-    
-        
+        host: ${{ secrets.SSH_HOST }}
+        user: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        connect_timeout: 10s
+        first_ssh: cd /var/www/html/my_crud_project && bash deploy.sh
+        last_ssh: |
+          ls -la
+          echo "last_ssh ${{ env.WELCOME }}" 

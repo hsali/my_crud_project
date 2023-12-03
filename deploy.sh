@@ -1,6 +1,6 @@
 #!/bin/bash
 
-
+echo "datetime: $(date +%Y-%m-%d:%H:%M:%S) started" >> deploy.log
 # Perform a git pull to fetch the latest changes
 git pull origin main
 
@@ -25,4 +25,4 @@ php artisan view:cache
 php artisan migrate 
 
 echo "completed pulling"
-echo "datetime: $(date +%Y-%m-%d:%H:%M:%S)" >> deploy.log
+echo "datetime: $(date +%Y-%m-%d:%H:%M:%S) completed" >> deploy.log
